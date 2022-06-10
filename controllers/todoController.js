@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser')
 const urlencoderParser = bodyParser.urlencoded({extended: false})
 const mongoose = require('mongoose')
+const {Schema} = require("mongoose");
 
 // Connect to the database
 mongoose.connect('mongodb+srv://admin:031296@todo.4zmofec.mongodb.net/?retryWrites=true&w=majority', (err) => {
@@ -10,7 +11,13 @@ mongoose.connect('mongodb+srv://admin:031296@todo.4zmofec.mongodb.net/?retryWrit
 
 // Create a schema
 var todoSchema = new mongoose.Schema({
-    item: {type:String}
+    item: {
+        type:String
+    },
+    completed:{
+        type: Boolean,
+        default:false
+    }
 })
 
 // Create a model
@@ -33,12 +40,33 @@ module.exports = function (app){
         })
     })
 
-    app.delete('/todo/:item' , function (req, res) {
-        // delete the requested item from mongodb
-        TodoModel.find({item: req.params.item.replace(/\-/g, " ")}).remove(function (err,data){
+    app.get('/todo/:id' , function (req, res) {
+        TodoModel.find({_id: req.params.id.replace(/\-/g, " ")}).remove(function (err, data){
             if(err) throw err;
-            res.json(data);
+            res.redirect('/todo')
         })
-
     });
+
+    app.get('/todo/complete/:id' , function (req, res) {
+        TodoModel.findByIdAndUpdate((req.params.id), {completed: true}, (err) =>{
+            if(err) throw err;
+            res.redirect('/todo')
+        })
+    });
+
+    app.get('/todo/uncomplete/:id' , function (req, res) {
+        TodoModel.findByIdAndUpdate((req.params.id), {completed: false}, (err) =>{
+            if(err) throw err;
+            res.redirect('/todo')
+        })
+    });
+
+    // app.delete('/todo/:item' , function (req, res) {
+    //     // delete the requested item from mongodb
+    //     TodoModel.find({item: req.params.item.replace(/\-/g, " ")}).remove(function (err,data){
+    //         if(err) throw err;
+    //         res.json(data);
+    //     })
+    //
+    // });
 }
