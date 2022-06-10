@@ -10,6 +10,9 @@
             crossorigin="anonymous"></script>
     <title>Todo list</title>
     <script src="/assets/todo-list-max.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
@@ -36,7 +39,7 @@
 <div class="mt-2">
     <ul class="list-group">
         <% for(var i = 0; i < todos.length; i++) { %>
-           <li class="list-group-item text-center fs-3"><%= todos[i].item %></li>
+           <li class="list-group-item text-center fs-3" style="font-family: 'Caveat', cursive;"><%= todos[i].item %></li>
         <% } %>
     </ul>
 </div>
